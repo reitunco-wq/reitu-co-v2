@@ -1,337 +1,236 @@
-// Import required modules
 const express = require('express');
-const mysql = require('config');
 const cors = require('cors');
+const { Pool } = require('pg');
 
-// Create Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware - these help our server understand requests
-app.use(cors()); // Allows frontend to communicate with backend
-app.use(express.json()); // Allows server to understand JSON data
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-// MySQL Database Connection
-// ✅ FIXED PASSWORD LINE - UPDATE THIS
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', 
-    password: '#reIT07*', // ← CHANGE THIS TO YOUR ACTUAL PASSWORD
-    database: 'retu_co'
+// Neon PostgreSQL connection
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-// Connect to MySQL
-db.connect((err) => {
-    if (err) {
-        console.log('❌ Error connecting to MySQL:', err);
-    } else {
-        console.log('✅ Connected to MySQL database successfully!');
-    }
+// Test database connection
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error acquiring client', err.stack);
+  }
+  console.log('✅ Connected to Neon PostgreSQL database successfully!');
+  release();
 });
 
 // Test route - to check if server is working
 app.get('/api/health', (req, res) => {
-    res.json({ 
-        success: true, 
-        message: 'Re!tu & Co Backend is running!',
-        timestamp: new Date().toISOString()
-    });
+  res.json({ 
+    success: true, 
+    message: 'Re!tu & Co Backend is running!',
+    timestamp: new Date().toISOString()
+  });
 });
 
-// Handle form submissions from homepage
-app.post('/api/projects', (req, res) => {
-    console.log('📥 Received a project submission request');
-    
-    // Get data from the request body
-    const {
-        clientName,
-        clientEmail,
-        clientPhone,
-        serviceType,
-        budgetRange,
-        timeline,
-        projectDetails,
-        references
-    } = req.body;
+// Handle project submissions from homepage
+app.post('/api/projects', async (req, res) => {
+  console.log('📥 Received a project submission request');
+  
+  const {
+    clientName,
+    clientEmail,
+    clientPhone,
+    serviceType,
+    budgetRange,
+    timeline,
+    projectDetails,
+    references
+  } = req.body;
 
-    // Log the received data (for debugging)
-    console.log('Client:', clientName);
-    console.log('Email:', clientEmail);
-    console.log('Service:', serviceType);
+  console.log('Client:', clientName);
+  console.log('Email:', clientEmail);
+  console.log('Service:', serviceType);
 
-    // Basic validation - check if required fields are filled
-    if (!clientName || !clientEmail || !clientPhone || !serviceType || !budgetRange || !timeline || !projectDetails) {
-        return res.status(400).json({
-            success: false,
-            message: 'Please fill in all required fields'
-        });
-    }
+  // Basic validation
+  if (!clientName || !clientEmail || !clientPhone || !serviceType || !budgetRange || !timeline || !projectDetails) {
+    return res.status(400).json({
+      success: false,
+      message: 'Please fill in all required fields'
+    });
+  }
 
-    // ✅ FIXED SQL QUERY - changed "references" to "reference_links"
-    const sqlQuery = `
-        INSERT INTO project_requests 
-        (client_name, client_email, client_phone, service_type, budget_range, timeline, project_details, reference_links)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-
-    // Execute the query
-    db.execute(
-        sqlQuery,
-        [clientName, clientEmail, clientPhone, serviceType, budgetRange, timeline, projectDetails, references || ''],
-        (error, results) => {
-            if (error) {
-                console.error('❌ Database error:', error);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Failed to save project to database'
-                });
-            }
-
-            console.log('✅ Project saved to database with ID:', results.insertId);
-            
-            // Send success response back to frontend
-            res.json({
-                success: true,
-                message: 'Project request submitted successfully! We will contact you within 24 hours.',
-                projectId: results.insertId
-            });
-        }
+  try {
+    const result = await pool.query(
+      `INSERT INTO project_requests 
+      (client_name, client_email, client_phone, service_type, budget_range, timeline, project_details, reference_links)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [clientName, clientEmail, clientPhone, serviceType, budgetRange, timeline, projectDetails, references || '']
     );
+    
+    console.log('✅ Project saved to database with ID:', result.rows[0].id);
+    
+    res.json({
+      success: true,
+      message: 'Project request submitted successfully! We will contact you within 24 hours.',
+      projectId: result.rows[0].id
+    });
+  } catch (error) {
+    console.error('❌ Database error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to save project to database'
+    });
+  }
 });
 
 // Handle contact form submissions
-app.post('/api/contact', (req, res) => {
-    console.log('📥 Received a contact submission request');
-    
-    // Get data from the request body
-    const {
-        name,
-        email,
-        subject,
-        message
-    } = req.body;
+app.post('/api/contact', async (req, res) => {
+  console.log('📥 Received a contact submission request');
+  
+  const {
+    name,
+    email,
+    subject,
+    message
+  } = req.body;
 
-    // Log the received data (for debugging)
-    console.log('Name:', name);
-    console.log('Email:', email);
-    console.log('Subject:', subject);
+  console.log('Name:', name);
+  console.log('Email:', email);
+  console.log('Subject:', subject);
 
-    // Basic validation - check if required fields are filled
-    if (!name || !email || !subject || !message) {
-        return res.status(400).json({
-            success: false,
-            message: 'All required fields must be filled'
-        });
-    }
+  // Basic validation
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({
+      success: false,
+      message: 'All required fields must be filled'
+    });
+  }
 
-    // SQL query to insert data into database
-    const sqlQuery = `
-        INSERT INTO contact_submissions 
-        (name, email, subject, message)
-        VALUES (?, ?, ?, ?)
-    `;
-
-    // Execute the query
-    db.execute(
-        sqlQuery,
-        [name, email, subject, message],
-        (error, results) => {
-            if (error) {
-                console.error('❌ Database error:', error);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Failed to save contact form to database'
-                });
-            }
-
-            console.log('✅ Contact form saved to database with ID:', results.insertId);
-            
-            // Send success response back to frontend
-            res.json({
-                success: true,
-                message: 'Message sent successfully! We will get back to you soon.',
-                submissionId: results.insertId
-            });
-        }
+  try {
+    const result = await pool.query(
+      `INSERT INTO contact_submissions 
+      (name, email, subject, message)
+      VALUES ($1, $2, $3, $4) RETURNING *`,
+      [name, email, subject, message]
     );
+
+    console.log('✅ Contact form saved to database with ID:', result.rows[0].id);
+    
+    res.json({
+      success: true,
+      message: 'Message sent successfully! We will get back to you soon.',
+      submissionId: result.rows[0].id
+    });
+  } catch (error) {
+    console.error('❌ Database error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to save contact form to database'
+    });
+  }
 });
 
 // Admin login
-app.post('/api/admin/login', (req, res) => {
-    const { username, password } = req.body;
+app.post('/api/admin/login', async (req, res) => {
+  const { username, password } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({
-            success: false,
-            message: 'Username and password required'
-        });
-    }
+  if (!username || !password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Username and password required'
+    });
+  }
 
-    const query = 'SELECT * FROM admin_users WHERE username = ?';
+  try {
+    const result = await pool.query('SELECT * FROM admin_users WHERE username = $1', [username]);
     
-    db.execute(query, [username], (error, results) => {
-        if (error) {
-            console.error('Database error:', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Login failed'
-            });
-        }
-
-        if (results.length === 0) {
-            return res.status(401).json({
-                success: false,
-                message: 'Invalid credentials'
-            });
-        }
-
-        const user = results[0];
-        
-        // In a real app, use bcrypt for password hashing
-        // For now, we'll use simple comparison (password: admin123)
-        if (password === 'admin123') {
-            res.json({
-                success: true,
-                message: 'Login successful',
-                user: { id: user.id, username: user.username }
-            });
-        } else {
-            res.status(401).json({
-                success: false,
-                message: 'Invalid credentials'
-            });
-        }
-    });
-});
-
-// Updated artwork creation endpoint
-app.post('/api/artworks', (req, res) => {
-    const { 
-        title, category, description, technologies, 
-        media_type, image_url, video_url, website_url, prototype_url 
-    } = req.body;
-
-    if (!title || !category || !description) {
-        return res.status(400).json({
-            success: false,
-            message: 'Title, category, and description are required'
-        });
+    if (result.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
     }
 
-    const sqlQuery = `
-        INSERT INTO artworks 
-        (title, category, description, technologies, media_type, image_url, video_url, website_url, prototype_url)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-
-    db.execute(
-        sqlQuery,
-        [title, category, description, JSON.stringify(technologies), media_type, image_url, video_url, website_url, prototype_url],
-        (error, results) => {
-            if (error) {
-                console.error('Database error:', error);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Failed to create artwork'
-                });
-            }
-
-            res.status(201).json({
-                success: true,
-                message: 'Artwork created successfully',
-                artworkId: results.insertId
-            });
-        }
-    );
-});
-
-// File upload endpoint (for hosting files on your server)
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadDir = 'uploads/portfolio/';
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
-        cb(null, uniqueName);
-    }
-});
-
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit
-    fileFilter: (req, file, cb) => {
-        const allowedTypes = {
-            'image/jpeg': 'jpg',
-            'image/jpg': 'jpg',
-            'image/png': 'png',
-            'image/gif': 'gif',
-            'image/webp': 'webp',
-            'video/mp4': 'mp4',
-            'video/webm': 'webm',
-            'application/pdf': 'pdf'
-        };
-        
-        if (allowedTypes[file.mimetype]) {
-            cb(null, true);
-        } else {
-            cb(new Error('Invalid file type'), false);
-        }
-    }
-});
-
-// Upload file endpoint
-app.post('/api/upload', upload.single('file'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({
-            success: false,
-            message: 'No file uploaded'
-        });
-    }
-
-    res.json({
+    const user = result.rows[0];
+    
+    // Simple password check (password: admin123)
+    if (password === user.password_hash) {
+      res.json({
         success: true,
-        message: 'File uploaded successfully',
-        file: {
-            name: req.file.originalname,
-            path: req.file.path,
-            size: req.file.size,
-            type: req.file.mimetype
-        }
+        message: 'Login successful',
+        user: { id: user.id, username: user.username }
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Login failed'
     });
+  }
 });
 
+// Get all project requests for admin
+app.get('/api/admin/projects', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM project_requests ORDER BY submitted_at DESC');
+    res.json({
+      success: true,
+      data: result.rows
+    });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch projects'
+    });
+  }
+});
 
 // Get all contact submissions for admin
-app.get('/api/admin/contacts', (req, res) => {
-    const query = 'SELECT * FROM contact_submissions ORDER BY submitted_at DESC';
-    
-    db.execute(query, (error, results) => {
-        if (error) {
-            console.error('Database error:', error);
-            return res.status(500).json({
-                success: false,
-                message: 'Failed to fetch contacts'
-            });
-        }
-
-        res.json({
-            success: true,
-            data: results
-        });
+app.get('/api/admin/contacts', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM contact_submissions ORDER BY submitted_at DESC');
+    res.json({
+      success: true,
+      data: result.rows
     });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch contacts'
+    });
+  }
+});
+
+// Get artworks for portfolio
+app.get('/api/artworks', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM artworks WHERE is_active = true ORDER BY created_at DESC');
+    res.json({
+      success: true,
+      data: result.rows
+    });
+  } catch (error) {
+    console.error('Error fetching artworks:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Database error'
+    });
+  }
 });
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`🚀 Re!tu & Co server running on port ${PORT}`);
-    console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🚀 Re!tu & Co server running on port ${PORT}`);
+  console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
