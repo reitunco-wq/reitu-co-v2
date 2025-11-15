@@ -1,0 +1,18 @@
+# Don't upload node modules
+node_modules/
+
+# Don't upload environment files
+.env
+.env.local
+
+# Don't upload system files
+.DS_Store
+Thumbs.db
+
+# Don't upload log files
+*.log
+logs/
+
+# Don't upload temporary files
+*.tmp
+*.temp

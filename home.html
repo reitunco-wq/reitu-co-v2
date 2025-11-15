@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re!tu & Co - Digital Artistry Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&family=Dancing+Script:wght@400;500&family=Raleway:wght@300;400;500&family=Pacifico&family=Great+Vibes&family=Sacramento&family=Parisienne&family=La+Belle+Aurore&family=Mr+De+Haviland&family=Meddon&family=Petit+Formal+Script&family=Qwigley&family=Rouge+Script&family=Alex+Brush&family=Allura&family=Milonga&family=Montez&family=Norican&family=Stalemate&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+            background: #000;
+            color: #fff;
+            height: 100vh;
+            width: 100vw;
+            font-weight: 400;
+        }
+
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 3s forwards 1s;
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 8rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .logo .r {
+            color: #ff4d94;
+            text-shadow: 0 0 30px rgba(255, 77, 148, 0.7);
+            position: relative;
+        }
+
+        .logo .r::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff4d94, transparent);
+        }
+
+        .logo .etu {
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .logo .and-co {
+            color: #ffd700;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+            font-size: 6rem;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .logo .and-co::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: #ffd700;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .tagline {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 3s forwards 1.5s;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 3s forwards 3s;
+        }
+
+        .luxury-button {
+            position: relative;
+            padding: 18px 45px;
+            border: none;
+            background: rgba(15, 15, 15, 0.7);
+            color: #fff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .luxury-button:nth-child(1) {
+            border-radius: 2px 20px 2px 20px;
+            transform: rotate(-1deg);
+            background: linear-gradient(45deg, rgba(15,15,15,0.7), rgba(255,77,148,0.1));
+        }
+
+        .luxury-button:nth-child(2) {
+            border-radius: 20px 2px 20px 2px;
+            transform: rotate(0.5deg);
+            background: linear-gradient(45deg, rgba(15,15,15,0.7), rgba(255,215,0,0.1));
+        }
+
+        .luxury-button:nth-child(3) {
+            border-radius: 2px 2px 20px 2px;
+            transform: rotate(1deg);
+            background: linear-gradient(45deg, rgba(15,15,15,0.7), rgba(255,77,148,0.1), rgba(255,215,0,0.1));
+        }
+
+        .luxury-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 148, 0.2), rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .luxury-button:hover {
+            transform: scale(1.03) rotate(0deg);
+            border-color: rgba(255, 77, 148, 0.6);
+            box-shadow: 0 0 25px rgba(255, 77, 148, 0.3);
+            color: #fff;
+        }
+
+        .luxury-button:hover::before {
+            left: 100%;
+        }
+
+        .luxury-button .button-text {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            background: linear-gradient(90deg, #ff4d94, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .luxury-button:hover .button-text {
+            letter-spacing: 0.25em;
+        }
+
+        .slogan {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 500;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 3s forwards 4s;
+            color: #fff;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            border-radius: 2px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 148, 0.2);
+            letter-spacing: 0.1em;
+        }
+
+        .slogan::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 20%;
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff4d94, #ffd700, #ff4d94, transparent);
+            transform: scaleX(0);
+            transform-origin: center;
+            animation: expandLine 2s forwards 5s;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff4d94, #ffd700, transparent);
+            box-shadow: 0 0 15px #ff4d94;
+            pointer-events: none;
+            z-index: 1000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 77, 148, 0.7);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        #sunrise-effect {
+            position: fixed;
+            top: -30%;
+            right: -30%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, rgba(255,77,148,0.1) 40%, transparent 70%);
+            z-index: 1;
+            animation: sunriseGlow 12s infinite alternate;
+            filter: blur(20px);
+        }
+
+        .audio-control {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            z-index: 100;
+            background: rgba(15, 15, 15, 0.7);
+            padding: 12px 15px;
+            border-radius: 2px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 148, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .audio-control button {
+            background: rgba(255, 77, 148, 0.1);
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            color: #fff;
+            padding: 8px 15px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .audio-control button:hover {
+            background: rgba(255, 77, 148, 0.2);
+            border-color: rgba(255, 77, 148, 0.6);
+        }
+
+        .ornamental-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .border-top, .border-bottom {
+            position: absolute;
+            left: 50px;
+            right: 50px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 148, 0.3), rgba(255, 215, 0, 0.3), transparent);
+        }
+
+        .border-top {
+            top: 50px;
+        }
+
+        .border-bottom {
+            bottom: 50px;
+        }
+
+        .border-left, .border-right {
+            position: absolute;
+            top: 50px;
+            bottom: 50px;
+            width: 1px;
+            background: linear-gradient(180deg, transparent, rgba(255, 77, 148, 0.3), rgba(255, 215, 0, 0.3), transparent);
+        }
+
+        .border-left {
+            left: 50px;
+        }
+
+        .border-right {
+            right: 50px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes expandLine {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 77, 148, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 77, 148, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 77, 148, 0.3); }
+        }
+
+        @keyframes sunriseGlow {
+            0% { opacity: 0.4; transform: scale(1); }
+            100% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* Artistic text animations */
+        @keyframes artFloat1 {
+            0% { transform: translate(0, 100px) scale(0.5) rotate(-10deg); opacity: 0; }
+            15% { transform: translate(30px, 0) scale(1.1) rotate(5deg); opacity: 1; }
+            85% { transform: translate(-20px, -80px) scale(1.1) rotate(2deg); opacity: 1; }
+            100% { transform: translate(-50px, -120px) scale(0.8) rotate(8deg); opacity: 0; }
+        }
+
+        @keyframes artFloat2 {
+            0% { transform: translate(100px, 100px) scale(0.3) rotate(15deg); opacity: 0; }
+            20% { transform: translate(-20px, 20px) scale(1.2) rotate(-5deg); opacity: 1; }
+            80% { transform: translate(40px, -60px) scale(1.1) rotate(-2deg); opacity: 1; }
+            100% { transform: translate(80px, -100px) scale(0.7) rotate(-10deg); opacity: 0; }
+        }
+
+        @keyframes artFloat3 {
+            0% { transform: translate(-100px, 150px) scale(0.4) rotate(20deg); opacity: 0; }
+            25% { transform: translate(10px, 40px) scale(1.3) rotate(-8deg); opacity: 1; }
+            75% { transform: translate(-30px, -40px) scale(1.2) rotate(5deg); opacity: 1; }
+            100% { transform: translate(-80px, -90px) scale(0.6) rotate(12deg); opacity: 0; }
+        }
+
+        @keyframes artFloat4 {
+            0% { transform: translate(150px, -50px) scale(0.6) rotate(-15deg); opacity: 0; }
+            30% { transform: translate(-40px, 30px) scale(1.4) rotate(10deg); opacity: 1; }
+            70% { transform: translate(20px, 60px) scale(1.1) rotate(-3deg); opacity: 1; }
+            100% { transform: translate(60px, 120px) scale(0.5) rotate(-8deg); opacity: 0; }
+        }
+
+        @keyframes artFloat5 {
+            0% { transform: translate(-150px, -100px) scale(0.7) rotate(25deg); opacity: 0; }
+            20% { transform: translate(50px, -20px) scale(1.2) rotate(-12deg); opacity: 1; }
+            80% { transform: translate(-40px, 50px) scale(1.1) rotate(8deg); opacity: 1; }
+            100% { transform: translate(-100px, 100px) scale(0.4) rotate(15deg); opacity: 0; }
+        }
+
+        @keyframes artFloat6 {
+            0% { transform: translate(0, -150px) scale(0.8) rotate(-20deg); opacity: 0; }
+            15% { transform: translate(-30px, -30px) scale(1.3) rotate(15deg); opacity: 1; }
+            85% { transform: translate(50px, 40px) scale(1.1) rotate(-5deg); opacity: 1; }
+            100% { transform: translate(100px, 80px) scale(0.5) rotate(-15deg); opacity: 0; }
+        }
+
+        @keyframes artFloat7 {
+            0% { transform: translate(200px, 0) scale(0.4) rotate(30deg); opacity: 0; }
+            25% { transform: translate(-50px, 50px) scale(1.5) rotate(-20deg); opacity: 1; }
+            75% { transform: translate(30px, -30px) scale(1.2) rotate(10deg); opacity: 1; }
+            100% { transform: translate(80px, -80px) scale(0.6) rotate(25deg); opacity: 0; }
+        }
+
+        .pulse {
+            animation: pulse 6s infinite;
+        }
+
+        .artistic-text {
+            position: absolute;
+            z-index: 2;
+            pointer-events: none;
+            text-align: center;
+            max-width: 300px;
+            text-shadow: 0 0 15px currentColor;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 4.5rem;
+                letter-spacing: 0.1em;
+            }
+            .logo .and-co {
+                font-size: 3.5rem;
+            }
+            .tagline {
+                font-size: 1.2rem;
+                letter-spacing: 0.2em;
+            }
+            .slogan {
+                font-size: 1.5rem;
+                padding: 12px 20px;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .luxury-button {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+            .border-top, .border-bottom {
+                left: 20px;
+                right: 20px;
+            }
+            .border-left, .border-right {
+                top: 20px;
+                bottom: 20px;
+            }
+            .border-top {
+                top: 20px;
+            }
+            .border-bottom {
+                bottom: 20px;
+            }
+            .border-left {
+                left: 20px;
+            }
+            .border-right {
+                right: 20px;
+            }
+            .artistic-text {
+                font-size: 1.2rem;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="cosmicCanvas"></canvas>
+    </div>
+    
+    <div id="sunrise-effect"></div>
+    
+    <div class="ornamental-border">
+        <div class="border-top"></div>
+        <div class="border-bottom"></div>
+        <div class="border-left"></div>
+        <div class="border-right"></div>
+    </div>
+    
+    <div id="content">
+        <div class="logo-container">
+            <div class="logo">
+                <span class="r">R</span><span class="e">e<span class="!">!<span class="tu">tu</span><span class="and-co">& Co</span>
+            </div>
+            <div class="tagline">Digital Artistry</div>
+        </div>
+        
+        <div class="buttons">
+            <a href="portfolio.html" class="luxury-button"><span class="button-text">Explore Re!tu's Portfolio</span></a>
+            <a href="services.html" class="luxury-button"><span class="button-text">Re!tu at your Service</span></a>
+            <a href="contact.html" class="luxury-button"><span class="button-text">Contact Re!tu</span></a>
+        </div>
+        
+        <div class="slogan pulse">Where Creativity Meets Code</div>
+    </div>
+    
+    <div class="audio-control">
+        <button id="toggle-audio">Play/Pause Music</button>
+    </div>
+    
+    <div id="custom-cursor"></div>
+
+    <!-- 
+        TO CHANGE THE DEFAULT MUSIC:
+        Replace the URL below with your own music file path
+        Example: <source src="your-music-file.mp3" type="audio/mpeg">
+    -->
+    <audio id="ambient-sound" loop>
+        <source src="genesis.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="click-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Canvas setup
+        const canvas = document.getElementById('cosmicCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // API Configuration - Added for future backend integration
+        // This will work in both local and live environments
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000/api' 
+            : '/api';
+
+        // Cosmic particles with brand colors
+        const particles = [];
+        const starParticles = [];
+        const brandColors = [
+            {r: 255, g: 77, b: 148}, // Brand pink
+            {r: 255, g: 215, b: 0},  // Brand gold
+            {r: 255, g: 255, b: 255} // White
+        ];
+
+        // Camera drift
+        let cameraX = 0;
+        let cameraY = 0;
+        let cameraZ = 0;
+        let cameraRotation = 0;
+
+        // Mouse position for parallax
+        let mouseX = canvas.width / 2;
+        let mouseY = canvas.height / 2;
+
+        // Create nebula particles
+        for (let i = 0; i < 150; i++) {
+            particles.push({
+                x: Math.random() * canvas.width * 2 - canvas.width/2,
+                y: Math.random() * canvas.height * 2 - canvas.height/2,
+                z: Math.random() * 1000,
+                size: Math.random() * 8 + 3,
+                color: brandColors[Math.floor(Math.random() * brandColors.length)],
+                speed: Math.random() * 0.3 + 0.05,
+                rotation: Math.random() * Math.PI * 2,
+                followFactor: Math.random() * 0.015 + 0.003
+            });
+        }
+
+        // Create star particles
+        for (let i = 0; i < 400; i++) {
+            starParticles.push({
+                x: Math.random() * canvas.width * 2 - canvas.width/2,
+                y: Math.random() * canvas.height * 2 - canvas.height/2,
+                z: Math.random() * 1000,
+                size: Math.random() * 1.5 + 0.3,
+                brightness: Math.random() * 0.8 + 0.2,
+                twinkleSpeed: Math.random() * 0.03 + 0.005,
+                twinkleOffset: Math.random() * Math.PI * 2
+            });
+        }
+
+        // Artistic floating texts
+        const artisticTexts = [
+            "Where Creativity Meets Code",
+            "Digital Artistry",
+            "Timeless Beauty",
+            "Code & Canvas",
+            "Pixel Perfection",
+            "Digital Dreams",
+            "Art in Motion",
+            "Visionary Code",
+            "Aesthetic Algorithms",
+            "Creative Coding",
+            "Visual Symphony",
+            "Digital Renaissance",
+            "Artful Innovation",
+            "Code as Poetry",
+            "Re!tu Excellence"
+        ];
+
+        const artisticFonts = [
+            "'Playfair Display', serif",
+            "'Cinzel', serif",
+            "'Montserrat', sans-serif",
+            "'Dancing Script', cursive",
+            "'Raleway', sans-serif",
+            "'Pacifico', cursive",
+            "'Great Vibes', cursive",
+            "'Sacramento', cursive",
+            "'Parisienne', cursive",
+            "'La Belle Aurore', cursive",
+            "'Mr De Haviland', cursive",
+            "'Meddon', cursive",
+            "'Petit Formal Script', cursive",
+            "'Qwigley', cursive",
+            "'Rouge Script', cursive",
+            "'Alex Brush', cursive",
+            "'Allura', cursive",
+            "'Milonga', cursive",
+            "'Montez', cursive",
+            "'Norican', cursive",
+            "'Stalemate', cursive"
+        ];
+
+        const textColors = [
+            "rgba(255, 77, 148, 0.9)", // Pink
+            "rgba(255, 215, 0, 0.9)",  // Gold
+            "rgba(255, 255, 255, 0.9)", // White
+            "rgba(255, 182, 193, 0.9)", // Light Pink
+            "rgba(255, 223, 0, 0.9)",   // Light Gold
+            "rgba(230, 230, 250, 0.9)"  // Lavender
+        ];
+
+        const textAnimations = [
+            "artFloat1",
+            "artFloat2",
+            "artFloat3",
+            "artFloat4",
+            "artFloat5",
+            "artFloat6",
+            "artFloat7"
+        ];
+
+        // Function to create an artistic text element
+        function createArtisticText() {
+            const textElement = document.createElement('div');
+            textElement.className = 'artistic-text';
+            
+            // Random text
+            const text = artisticTexts[Math.floor(Math.random() * artisticTexts.length)];
+            textElement.textContent = text;
+            
+            // Random font
+            const fontFamily = artisticFonts[Math.floor(Math.random() * artisticFonts.length)];
+            const fontSize = Math.random() * 40 + 20;
+            textElement.style.fontFamily = fontFamily;
+            textElement.style.fontSize = `${fontSize}px`;
+            textElement.style.fontWeight = Math.random() > 0.7 ? 'bold' : 'normal';
+            textElement.style.fontStyle = Math.random() > 0.8 ? 'italic' : 'normal';
+            
+            // Random color
+            const color = textColors[Math.floor(Math.random() * textColors.length)];
+            textElement.style.color = color;
+            
+            // Random animation
+            const animation = textAnimations[Math.floor(Math.random() * textAnimations.length)];
+            const duration = Math.random() * 15 + 10;
+            textElement.style.animation = `${animation} ${duration}s ease-in-out forwards`;
+            
+            // Random position
+            const x = Math.random() * (window.innerWidth - 300);
+            const y = Math.random() * (window.innerHeight - 100);
+            textElement.style.left = `${x}px`;
+            textElement.style.top = `${y}px`;
+            
+            // Random rotation
+            const rotation = Math.random() * 30 - 15;
+            textElement.style.transform = `rotate(${rotation}deg)`;
+            
+            // Add to document
+            document.body.appendChild(textElement);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                if (textElement.parentNode) {
+                    textElement.parentNode.removeChild(textElement);
+                }
+            }, duration * 1000);
+        }
+
+        // Start creating artistic texts
+        setInterval(createArtisticText, 1500);
+
+        // Custom cursor with trail
+        const cursor = document.getElementById('custom-cursor');
+        const cursorTrails = [];
+        let trailCounter = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Update cursor position
+            cursor.style.left = `${e.clientX}px`;
+            cursor.style.top = `${e.clientY}px`;
+            
+            // Create cursor trail
+            trailCounter++;
+            if (trailCounter % 3 === 0) {
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = `${e.clientX}px`;
+                trail.style.top = `${e.clientY}px`;
+                document.body.appendChild(trail);
+                cursorTrails.push({
+                    element: trail,
+                    x: e.clientX,
+                    y: e.clientY,
+                    life: 25
+                });
+            }
+        });
+
+        // Update cursor trails
+        function updateCursorTrails() {
+            for (let i = cursorTrails.length - 1; i >= 0; i--) {
+                const trail = cursorTrails[i];
+                trail.life--;
+                
+                if (trail.life <= 0) {
+                    trail.element.remove();
+                    cursorTrails.splice(i, 1);
+                } else {
+                    const size = 6 * (trail.life / 25);
+                    trail.element.style.width = `${size}px`;
+                    trail.element.style.height = `${size}px`;
+                    trail.element.style.opacity = trail.life / 25;
+                }
+            }
+        }
+
+        // Button hover effects
+        const buttons = document.querySelectorAll('.luxury-button');
+        const clickSound = document.getElementById('click-sound');
+        
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                cursor.style.width = '30px';
+                cursor.style.height = '30px';
+                cursor.style.background = 'radial-gradient(circle, #ff4d94, #ffd700)';
+                
+                // Create elegant particle burst
+                createParticleBurst(button);
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                cursor.style.width = '22px';
+                cursor.style.height = '22px';
+                cursor.style.background = 'radial-gradient(circle, #ff4d94, #ffd700, transparent)';
+            });
+            
+            button.addEventListener('click', (e) => {
+                // Play refined click sound
+                clickSound.currentTime = 0;
+                clickSound.volume = 0.3;
+                clickSound.play();
+                
+                // Enhanced particle burst on click
+                createParticleBurst(button, 25);
+            });
+        });
+
+        // Elegant particle burst effect
+        function createParticleBurst(element, count = 15) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.width = '3px';
+                particle.style.height = '3px';
+                particle.style.borderRadius = '50%';
+                // Alternate between pink and gold particles
+                particle.style.backgroundColor = i % 2 === 0 ? '#ff4d94' : '#ffd700';
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.zIndex = '100';
+                particle.style.pointerEvents = 'none';
+                particle.style.boxShadow = i % 2 === 0 ? '0 0 5px rgba(255, 77, 148, 0.7)' : '0 0 5px rgba(255, 215, 0, 0.7)';
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 2 + 1.5;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                
+                let life = 40;
+                
+                function updateParticle() {
+                    life--;
+                    if (life <= 0) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    particle.style.left = `${parseFloat(particle.style.left) + vx}px`;
+                    particle.style.top = `${parseFloat(particle.style.top) + vy}px`;
+                    particle.style.opacity = life / 40;
+                    
+                    requestAnimationFrame(updateParticle);
+                }
+                
+                updateParticle();
+            }
+        }
+
+        // Audio setup
+        const audio = document.getElementById('ambient-sound');
+        const toggleAudioButton = document.getElementById('toggle-audio');
+        
+        // Set default audio
+        audio.volume = 0.2;
+        
+        // Toggle audio play/pause
+        toggleAudioButton.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(e => console.log('Audio play failed:', e));
+                toggleAudioButton.textContent = "Pause Music";
+            } else {
+                audio.pause();
+                toggleAudioButton.textContent = "Play Music";
+            }
+        });
+        
+        // Auto-play audio on user interaction (required by browser policies)
+        document.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play().catch(e => console.log('Audio play failed:', e));
+                toggleAudioButton.textContent = "Pause Music";
+            }
+        }, { once: true });
+
+        // Animation loop
+        function animate() {
+            // Clear canvas with subtle fade
+            ctx.fillStyle = 'rgba(5, 5, 10, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Update camera position
+            cameraZ += 0.3;
+            cameraRotation += 0.0003;
+            
+            // Calculate parallax based on mouse position
+            const parallaxX = (mouseX - canvas.width / 2) * 0.008;
+            const parallaxY = (mouseY - canvas.height / 2) * 0.008;
+            
+            // Draw nebula particles
+            particles.forEach(particle => {
+                // Make particles subtly follow cursor
+                const targetX = (mouseX - canvas.width / 2) * particle.followFactor;
+                const targetY = (mouseY - canvas.height / 2) * particle.followFactor;
+                
+                particle.x += (targetX - particle.x) * 0.03;
+                particle.y += (targetY - particle.y) * 0.03;
+                
+                // Update particle position with elegant swirl
+                particle.rotation += 0.005;
+                particle.x += Math.cos(particle.rotation) * particle.speed;
+                particle.y += Math.sin(particle.rotation) * particle.speed;
+                
+                // Calculate position with camera and parallax
+                const scale = 500 / (particle.z + cameraZ);
+                const x = (particle.x + parallaxX) * scale + canvas.width / 2;
+                const y = (particle.y + parallaxY) * scale + canvas.height / 2;
+                
+                // Only draw if particle is on screen
+                if (x > -100 && x < canvas.width + 100 && y > -100 && y < canvas.height + 100) {
+                    const size = particle.size * scale;
+                    
+                    // Create gradient for glowing effect
+                    const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+                    gradient.addColorStop(0, `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, 0.9)`);
+                    gradient.addColorStop(0.5, `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, 0.4)`);
+                    gradient.addColorStop(1, `rgba(${particle.color.r}, ${particle.color.g}, ${particle.color.b}, 0)`);
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Reset particle if it goes too far
+                if (particle.z > 1000) {
+                    particle.z = 0;
+                }
+            });
+            
+            // Draw star particles
+            const time = Date.now() * 0.001;
+            starParticles.forEach(star => {
+                // Subtle twinkle effect
+                const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.5 + 0.5;
+                const brightness = star.brightness * (0.5 + twinkle * 0.5);
+                
+                // Calculate position with camera and parallax
+                const scale = 1000 / (star.z + cameraZ);
+                const x = (star.x + parallaxX) * scale + canvas.width / 2;
+                const y = (star.y + parallaxY) * scale + canvas.height / 2;
+                
+                // Only draw if star is on screen
+                if (x > -10 && x < canvas.width + 10 && y > -10 && y < canvas.height + 10) {
+                    const size = star.size * scale;
+                    
+                    ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                // Reset star if it goes too far
+                if (star.z > 1000) {
+                    star.z = 0;
+                }
+            });
+            
+            // Update cursor trails
+            updateCursorTrails();
+            
+            // Modulate audio volume with particle motion
+            if (!audio.paused) {
+                const motion = particles.reduce((sum, p) => sum + p.speed, 0) / particles.length;
+                audio.volume = 0.15 + motion * 0.05;
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Start animation
+        animate();
+    </script>
+</body>
+</html>

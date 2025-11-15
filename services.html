@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Re!tu & Co Digital Artistry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Playfair+Display:wght@400;500;600&family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500&family=Source+Code+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #ff4d94;
+            --primary-gold: #ffd700;
+            --neon-blue: #00f3ff;
+            --neon-purple: #b967ff;
+            --code-green: #00ff88;
+            --code-blue: #4d94ff;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.7);
+            --text-light: #ffffff;
+            --text-muted: #cccccc;
+        }
+
+        body {
+            overflow-x: hidden;
+            font-family: 'Playfair Display', serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-pink), var(--primary-gold), transparent);
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 77, 148, 0.5);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 77, 148, 0.2);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .logo .r {
+            color: var(--primary-pink);
+        }
+
+        .logo .etu {
+            color: var(--text-light);
+        }
+
+        .logo .and-co {
+            color: var(--primary-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-pink);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary-pink);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            position: relative;
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-gold), var(--neon-blue));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textGlitch 5s infinite;
+        }
+
+        @keyframes textGlitch {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-2px) translateY(1px); }
+            20% { transform: translateX(2px) translateY(-1px); }
+            30% { transform: translateX(-1px) translateY(2px); }
+            40% { transform: translateX(1px) translateY(-2px); }
+            50% { transform: translateX(0); }
+        }
+
+        .hero-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        /* Services Grid */
+        .services-container {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: relative;
+            color: var(--primary-gold);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-pink), var(--neon-blue), transparent);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            perspective: 1000px;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 148, 0.2);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 77, 148, 0.1), rgba(255, 215, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 25px 40px rgba(255, 77, 148, 0.3);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: rgba(255, 77, 148, 0.1);
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            font-size: 2rem;
+            color: var(--primary-pink);
+        }
+
+        .service-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .service-description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .service-feature {
+            padding: 0.5rem 0;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-feature::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary-pink);
+        }
+
+        /* Service Buttons */
+        .service-btn {
+            position: relative;
+            padding: 1rem 2rem;
+            background: rgba(255, 77, 148, 0.1);
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            color: var(--text-light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            overflow: hidden;
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+        }
+
+        .service-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 77, 148, 0.4), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .service-btn:hover {
+            background: rgba(255, 77, 148, 0.2);
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 20px rgba(255, 77, 148, 0.5);
+            transform: translateY(-3px);
+        }
+
+        .service-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Order Form Section */
+        .order-section {
+            padding: 6rem 2rem;
+            background: rgba(15, 15, 15, 0.5);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 77, 148, 0.2);
+            border-bottom: 1px solid rgba(255, 77, 148, 0.2);
+        }
+
+        .order-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .order-form {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 77, 148, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--primary-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            border-radius: 5px;
+            color: var(--text-light);
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 10px rgba(255, 77, 148, 0.3);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--primary-pink), var(--primary-gold));
+            color: #000;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 77, 148, 0.4);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .audio-btn {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .audio-btn:hover {
+            background: rgba(255, 77, 148, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 77, 148, 0.2);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Canvas Background */
+        #services-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* Code Text Elements */
+        .code-text {
+            position: absolute;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-form {
+                padding: 2rem;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 77, 148, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-pink);
+            animation: spin 1s ease-in-out infinite;
+            z-index: 2000;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 20, 20, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 77, 148, 0.3);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .success-message.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .success-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner"></div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <div class="success-icon">✓</div>
+        <div class="success-text">Order Submitted Successfully!</div>
+        <p>We'll contact you within 24 hours to discuss your project.</p>
+    </div>
+
+    <!-- Canvas Background -->
+    <canvas id="services-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <span class="r">R</span><span class="etu">e!tu</span><span class="and-co">& Co</span>
+        </div>
+        <nav class="nav-links">
+            <a href="home.html" class="nav-link">Home</a>
+            <a href="portfolio.html" class="nav-link">Portfolio</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 class="hero-title">Where Creativity Meets Code</h1>
+        <p class="hero-subtitle">Transforming ideas into extraordinary digital experiences through cutting-edge design and development</p>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-container">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <!-- Graphic Design Card -->
+            <div class="service-card" data-service="graphic">
+                <div class="service-icon">🎨</div>
+                <h3 class="service-title">Graphic Design</h3>
+                <p class="service-description">Visual storytelling that captures attention and communicates your brand's essence with stunning precision.</p>
+                <ul class="service-features">
+                    <li class="service-feature">Logo & Brand Identity</li>
+                    <li class="service-feature">Marketing Materials</li>
+                    <li class="service-feature">Packaging Design</li>
+                    <li class="service-feature">Social Media Graphics</li>
+                    <li class="service-feature">Print Design</li>
+                    <li class="service-feature">Illustration</li>
+                </ul>
+                <button class="service-btn" data-service="graphic">Order Graphic Design</button>
+            </div>
+
+            <!-- Web Design Card -->
+            <div class="service-card" data-service="web">
+                <div class="service-icon">💻</div>
+                <h3 class="service-title">Web Design & Development</h3>
+                <p class="service-description">Immersive digital experiences that engage users and drive results through innovative design and technology.</p>
+                <ul class="service-features">
+                    <li class="service-feature">Responsive Website Design</li>
+                    <li class="service-feature">E-Commerce Solutions</li>
+                    <li class="service-feature">Web Application Development</li>
+                    <li class="service-feature">UI/UX Design</li>
+                    <li class="service-feature">Content Management Systems</li>
+                    <li class="service-feature">Website Maintenance</li>
+                </ul>
+                <button class="service-btn" data-service="web">Order Web Design</button>
+            </div>
+
+            <!-- App Design Card -->
+            <div class="service-card" data-service="app">
+                <div class="service-icon">📱</div>
+                <h3 class="service-title">App Design & Development</h3>
+                <p class="service-description">Native and cross-platform applications that deliver seamless experiences across all devices and platforms.</p>
+                <ul class="service-features">
+                    <li class="service-feature">iOS App Development</li>
+                    <li class="service-feature">Android App Development</li>
+                    <li class="service-feature">Cross-Platform Apps</li>
+                    <li class="service-feature">UI/UX Design</li>
+                    <li class="service-feature">App Store Optimization</li>
+                    <li class="service-feature">App Maintenance</li>
+                </ul>
+                <button class="service-btn" data-service="app">Order App Development</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form Section -->
+    <section class="order-section" id="orderSection">
+        <div class="order-container">
+            <h2 class="section-title">Start Your Project</h2>
+            <form class="order-form" id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" class="form-input" id="clientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="clientEmail" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" id="clientPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Service Type</label>
+                        <select class="form-select" id="serviceType" required>
+                            <option value="">Select a Service</option>
+                            <option value="graphic">Graphic Design</option>
+                            <option value="web">Web Design & Development</option>
+                            <option value="app">App Design & Development</option>
+                            <option value="branding">Complete Branding</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Budget Range</label>
+                        <select class="form-select" id="budgetRange" required>
+                            <option value="">Select Budget</option>
+                            <option value="500-1000">R500 - R1,000</option>
+                            <option value="1000-2500">R1,000 - R2,500</option>
+                            <option value="2500-5000">R2,500 - R5,000</option>
+                            <option value="5000-10000">R5,000 - R10,000</option>
+                            <option value="10000+">R10,000+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Timeline</label>
+                        <select class="form-select" id="timeline" required>
+                            <option value="">Select Timeline</option>
+                            <option value="urgent">Urgent (1-2 weeks)</option>
+                            <option value="standard">Standard (3-4 weeks)</option>
+                            <option value="flexible">Flexible (1-2 months)</option>
+                            <option value="long-term">Long-term Project</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Project Details</label>
+                    <textarea class="form-textarea" id="projectDetails" placeholder="Describe your project, goals, timeline, and any specific requirements..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Reference Materials (URLs)</label>
+                    <input type="text" class="form-input" id="references" placeholder="Links to examples, inspiration, or current website...">
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Project Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button class="audio-btn" id="playPauseBtn">♪</button>
+        <button class="audio-btn" id="muteBtn">M</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">&copy;2025 Re!tu & Co Digital Artistry. All rights reserved.</p>
+    </footer>
+
+    <!-- Audio Elements -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="hoverSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="clickSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-plastic-bubble-click-1124.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        //API Configuration for both local and live env.
+        const API_BASE_URL = window.location.hostname === 'localhost'
+        ?'http://localhost:5000/api'
+        :'/api';
+        
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            cursorFollower.style.transform = 'translate(-50%, -50%) scale(1.2)';
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+
+        // Canvas Background Animation with Code
+        const canvas = document.getElementById('services-canvas');
+        const ctx = canvas.getContext('2d');
+        let codeLines = [];
+        let particles = [];
+        let codeFragments = [];
+
+        // Programming code samples
+        const codeSamples = [
+            'function createArt() {',
+            '  return <div className="artwork">',
+            '    <Canvas width={800} height={600} />',
+            '  </div>;',
+            '}',
+            'const design = new DesignSystem();',
+            'design.applyBrandColors("#ff4d94", "#ffd700");',
+            'class DigitalArt {',
+            '  constructor() {',
+            '    this.creativity = new Creativity();',
+            '    this.technology = new Technology();',
+            '  }',
+            '  createMasterpiece() {',
+            '    return this.creativity.combine(this.technology);',
+            '  }',
+            '}',
+            'export default function Services() {',
+            '  const [quality, setQuality] = useState("premium");',
+            '  useEffect(() => {',
+            '    setQuality("world-class");',
+            '  }, []);',
+            '  return <ServiceGrid quality={quality} />;',
+            '}',
+            'const api = {',
+            '  design: "graphic",',
+            '  development: "web",',
+            '  innovation: "app"',
+            '};',
+            'for (let service in api) {',
+            '  console.log(`Creating ${service}...`);',
+            '}',
+            'function transformIdeas() {',
+            '  const input = getClientVision();',
+            '  const output = applyRetuMagic(input);',
+            '  return output;',
+            '}',
+            '@media (min-width: 768px) {',
+            '  .service-card {',
+            '    transform: translateY(-15px);',
+            '    box-shadow: 0 25px 40px rgba(255, 77, 148, 0.3);',
+            '  }',
+            '}',
+            'const technologies = ["React", "Vue", "Angular", "Node.js", "Python", "AI/ML"];',
+            'technologies.forEach(tech => {',
+            '  implementSolution(tech);',
+            '});',
+            '// Retu! & Co - Digital Artistry',
+            '// World-class services since 2024',
+            '// Transforming visions into reality'
+        ];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Code Line Class
+        class CodeLine {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.text = codeSamples[Math.floor(Math.random() * codeSamples.length)];
+                this.speed = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.color = Math.random() > 0.5 ? 'var(--code-green)' : 'var(--code-blue)';
+                this.size = Math.floor(Math.random() * 4) + 12;
+                this.life = 1;
+                this.maxLife = Math.random() * 200 + 100;
+            }
+            
+            update() {
+                this.y += this.speed;
+                this.life--;
+                
+                if (this.y > canvas.height || this.life <= 0) {
+                    this.reset();
+                    this.y = -20;
+                }
+            }
+            
+            draw() {
+                ctx.font = `${this.size}px 'Source Code Pro', monospace`;
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fillText(this.text, this.x, this.y);
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Particle Class
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.size = Math.random() * 3 + 1;
+                this.color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, 255, ${Math.random() * 0.5 + 0.2})`;
+                this.life = Math.random() * 100 + 50;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life--;
+                
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height || this.life <= 0) {
+                    this.reset();
+                }
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // Initialize code lines and particles
+        for (let i = 0; i < 20; i++) {
+            codeLines.push(new CodeLine());
+        }
+        
+        for (let i = 0; i < 30; i++) {
+            particles.push(new Particle());
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Update and draw code lines
+            codeLines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+            
+            // Update and draw particles
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Service card interactions
+        const serviceCards = document.querySelectorAll('.service-card');
+        const serviceButtons = document.querySelectorAll('.service-btn');
+        const hoverSound = document.getElementById('hoverSound');
+        const clickSound = document.getElementById('clickSound');
+
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                hoverSound.currentTime = 0;
+                hoverSound.play();
+                
+                // Create particle burst
+                createParticleBurst(card);
+                
+                // Transform code lines into service representation
+                transformCodeForService(card.getAttribute('data-service'));
+            });
+            
+            card.addEventListener('click', () => {
+                clickSound.currentTime = 0;
+                clickSound.play();
+                
+                const serviceType = card.getAttribute('data-service');
+                document.getElementById('serviceType').value = serviceType;
+                
+                // Scroll to order form
+                document.getElementById('orderSection').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+        });
+
+        serviceButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                clickSound.currentTime = 0;
+                clickSound.play();
+                
+                const serviceType = button.getAttribute('data-service');
+                document.getElementById('serviceType').value = serviceType;
+                
+                // Scroll to order form
+                document.getElementById('orderSection').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            });
+        });
+
+        // Transform code lines based on service
+        function transformCodeForService(service) {
+            // Change code line colors and behavior based on service
+            codeLines.forEach(line => {
+                switch(service) {
+                    case 'graphic':
+                        line.color = 'var(--primary-pink)';
+                        line.speed = Math.random() * 3 + 1;
+                        break;
+                    case 'web':
+                        line.color = 'var(--primary-gold)';
+                        line.speed = Math.random() * 4 + 1;
+                        break;
+                    case 'app':
+                        line.color = 'var(--neon-blue)';
+                        line.speed = Math.random() * 5 + 1;
+                        break;
+                }
+            });
+        }
+
+        // Particle burst effect
+        function createParticleBurst(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.borderRadius = '50%';
+                particle.style.backgroundColor = i % 2 === 0 ? 'var(--primary-pink)' : 'var(--primary-gold)';
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.position = 'fixed';
+                particle.style.zIndex = '100';
+                particle.style.pointerEvents = 'none';
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 3 + 2;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                
+                let life = 30;
+                
+                function updateParticle() {
+                    life--;
+                    if (life <= 0) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    particle.style.left = `${parseFloat(particle.style.left) + vx}px`;
+                    particle.style.top = `${parseFloat(particle.style.top) + vy}px`;
+                    particle.style.opacity = life / 30;
+                    
+                    requestAnimationFrame(updateParticle);
+                }
+                
+                updateParticle();
+            }
+        }
+
+        // Form submission
+        // Form submission - UPDATED VERSION
+const orderForm = document.getElementById('orderForm');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const successMessage = document.getElementById('successMessage');
+
+orderForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Show loading
+    loadingSpinner.classList.add('active');
+    
+    // Collect form data
+    const formData = {
+        clientName: document.getElementById('clientName').value,
+        clientEmail: document.getElementById('clientEmail').value,
+        clientPhone: document.getElementById('clientPhone').value,
+        serviceType: document.getElementById('serviceType').value,
+        budgetRange: document.getElementById('budgetRange').value,
+        timeline: document.getElementById('timeline').value,
+        projectDetails: document.getElementById('projectDetails').value,
+        references: document.getElementById('references').value
+    };
+
+    console.log('Sending form data to backend...', formData);
+
+    try {
+        // Send to our backend
+        const response = await fetch('http://localhost:5000/api/projects', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+        
+        // Hide loading spinner
+        loadingSpinner.classList.remove('active');
+
+        if (result.success) {
+            // Show success message
+            successMessage.classList.add('active');
+            // Reset form
+            orderForm.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('active');
+            }, 5000);
+        } else {
+            alert('Failed to submit: ' + result.message);
+        }
+    } catch (error) {
+        loadingSpinner.classList.remove('active');
+        alert('Network error. Please check if the server is running.');
+        console.error('Submission error:', error);
+    }
+});
+
+        // Audio functionality
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                playPauseBtn.textContent = '❚❚';
+            } else {
+                backgroundMusic.pause();
+                playPauseBtn.textContent = '♪';
+            }
+        });
+
+        muteBtn.addEventListener('click', () => {
+            backgroundMusic.muted = !backgroundMusic.muted;
+            muteBtn.textContent = backgroundMusic.muted ? 'U' : 'M';
+        });
+
+        // Initialize audio volume
+        backgroundMusic.volume = 0.3;
+        hoverSound.volume = 0.2;
+        clickSound.volume = 0.3;
+    </script>
+</body>
+</html>

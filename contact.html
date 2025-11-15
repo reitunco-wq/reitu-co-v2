@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Re!tu & Co Digital Artistry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff00ff;
+            --neon-lime: #00ff88;
+            --neon-gold: #ffd700;
+            --deep-space: #0a0a15;
+            --cyber-purple: #6a00ff;
+            --matrix-green: #00ff41;
+            --hologram-blue: #00a2ff;
+            --text-glow: #ffffff;
+        }
+
+        body {
+            overflow-x: hidden;
+            font-family: 'Exo 2', sans-serif;
+            background: var(--deep-space);
+            color: var(--text-glow);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(106, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 243, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 0, 255, 0.05) 0%, transparent 50%);
+        }
+
+        /* Cyber Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, var(--deep-space) 21px, transparent 1%) center,
+                linear-gradient(var(--deep-space) 21px, transparent 1%) center,
+                rgba(0, 243, 255, 0.1);
+            background-size: 22px 22px;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        /* Digital Rain Effect */
+        .digital-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* Header - Completely New Design */
+        .cyber-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 21, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+        }
+
+        .cyber-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta), var(--neon-lime));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            letter-spacing: 0.2em;
+        }
+
+        .cyber-nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .cyber-nav-link {
+            color: var(--text-glow);
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cyber-nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--neon-cyan);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-nav-link:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .cyber-nav-link:hover::before {
+            opacity: 1;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* Hero Section - Revolutionary Design */
+        .cyber-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 6rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            position: relative;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta), var(--neon-lime), var(--neon-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hologramFloat 6s ease-in-out infinite;
+            text-shadow: 
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-magenta),
+                0 0 60px var(--neon-lime);
+        }
+
+        @keyframes hologramFloat {
+            0%, 100% { 
+                transform: translateY(0) rotateX(0deg);
+                text-shadow: 
+                    0 0 20px var(--neon-cyan),
+                    0 0 40px var(--neon-magenta),
+                    0 0 60px var(--neon-lime);
+            }
+            50% { 
+                transform: translateY(-10px) rotateX(5deg);
+                text-shadow: 
+                    0 0 30px var(--neon-cyan),
+                    0 0 50px var(--neon-magenta),
+                    0 0 70px var(--neon-lime),
+                    0 0 90px var(--neon-gold);
+            }
+        }
+
+        .cyber-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            color: var(--neon-cyan);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            animation: subtitleGlitch 8s infinite;
+        }
+
+        @keyframes subtitleGlitch {
+            0%, 100% { transform: translateX(0); }
+            95% { transform: translateX(0); }
+            96% { transform: translateX(-5px); }
+            97% { transform: translateX(5px); }
+            98% { transform: translateX(-5px); }
+            99% { transform: translateX(5px); }
+        }
+
+        /* Contact Matrix - Revolutionary Layout */
+        .contact-matrix {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        /* Hologram Form */
+        .hologram-form {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 0;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--neon-cyan);
+            box-shadow: 
+                0 0 30px rgba(0, 243, 255, 0.3),
+                inset 0 0 30px rgba(0, 243, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .hologram-form:hover::before {
+            left: 100%;
+        }
+
+        .form-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--neon-lime);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+            text-shadow: 0 0 15px var(--neon-lime);
+        }
+
+        .cyber-form-group {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .cyber-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        .cyber-input, .cyber-textarea {
+            width: 100%;
+            padding: 1.2rem;
+            background: rgba(10, 10, 25, 0.8);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 0;
+            color: var(--text-glow);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cyber-input:focus, .cyber-textarea:focus {
+            outline: none;
+            border-color: var(--neon-lime);
+            box-shadow: 
+                0 0 20px var(--neon-lime),
+                inset 0 0 10px rgba(0, 255, 136, 0.1);
+            background: rgba(10, 10, 30, 0.9);
+        }
+
+        .cyber-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Quantum Send Button */
+        .quantum-send-container {
+            text-align: center;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .quantum-send-btn {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta), var(--neon-lime));
+            color: #000;
+            border: none;
+            padding: 1.5rem 3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 0 30px var(--neon-cyan),
+                0 0 50px var(--neon-magenta);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            border: 1px solid transparent;
+            background-size: 200% 200%;
+            animation: quantumGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes quantumGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 30px var(--neon-cyan),
+                    0 0 50px var(--neon-magenta);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 50px var(--neon-cyan),
+                    0 0 70px var(--neon-magenta),
+                    0 0 90px var(--neon-lime);
+            }
+        }
+
+        .quantum-send-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .quantum-send-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            animation: quantumHover 1s ease-in-out infinite;
+        }
+
+        @keyframes quantumHover {
+            0%, 100% { transform: translateY(-5px) scale(1.05); }
+            50% { transform: translateY(-7px) scale(1.07); }
+        }
+
+        .quantum-send-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Cyber Contact Network */
+        .cyber-network {
+            background: rgba(20, 20, 35, 0.6);
+            border-radius: 0;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--neon-magenta);
+            box-shadow: 
+                0 0 30px rgba(255, 0, 255, 0.3),
+                inset 0 0 30px rgba(255, 0, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-network::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .cyber-network:hover::before {
+            left: 100%;
+        }
+
+        .network-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--neon-magenta);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+            text-shadow: 0 0 15px var(--neon-magenta);
+        }
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .network-node {
+            padding: 2rem;
+            background: rgba(10, 10, 25, 0.8);
+            border: 1px solid var(--neon-cyan);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .network-node:nth-child(even) {
+            border-color: var(--neon-magenta);
+        }
+
+        .network-node:nth-child(3), .network-node:nth-child(4) {
+            border-color: var(--neon-lime);
+        }
+
+        .network-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 5px 20px rgba(0, 243, 255, 0.5),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        .node-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .node-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .network-node:nth-child(even) .node-title {
+            color: var(--neon-magenta);
+        }
+
+        .network-node:nth-child(3) .node-title, .network-node:nth-child(4) .node-title {
+            color: var(--neon-lime);
+        }
+
+        .node-value {
+            font-size: 1.1rem;
+            color: var(--text-glow);
+            transition: all 0.3s ease;
+        }
+
+        .network-node:hover .node-value {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        .network-node:nth-child(even):hover .node-value {
+            color: var(--neon-magenta);
+            text-shadow: 0 0 5px var(--neon-magenta);
+        }
+
+        .network-node:nth-child(3):hover .node-value, .network-node:nth-child(4):hover .node-value {
+            color: var(--neon-lime);
+            text-shadow: 0 0 5px var(--neon-lime);
+        }
+
+        /* Social Media Portal */
+        .social-portal {
+            grid-column: 1 / -1;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(10, 10, 25, 0.8);
+            border: 1px solid var(--neon-gold);
+            text-align: center;
+        }
+
+        .portal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--neon-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px var(--neon-gold);
+        }
+
+        .portal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .portal-btn {
+            padding: 1rem 2rem;
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid var(--neon-gold);
+            color: var(--neon-gold);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .portal-btn:hover {
+            background: var(--neon-gold);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-gold);
+            transform: translateY(-3px);
+        }
+
+        /* Audio Controls */
+        .cyber-audio-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 100;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cyber-audio-btn {
+            background: rgba(20, 20, 35, 0.8);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 0;
+            width: 50px;
+            height: 50px;
+            color: var(--neon-cyan);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .cyber-audio-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 15px var(--neon-cyan);
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        .cyber-footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--neon-cyan);
+            background: rgba(10, 10, 21, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .cyber-footer-text {
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        /* Particle Effects */
+        .quantum-particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .data-stream {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--neon-cyan), transparent);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .contact-matrix {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .hologram-title {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hologram-title {
+                font-size: 3rem;
+            }
+            
+            .cyber-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .hologram-form, .cyber-network {
+                padding: 2rem;
+            }
+            
+            .form-title, .network-title {
+                font-size: 2rem;
+            }
+            
+            .cyber-header {
+                padding: 1rem 1.5rem;
+            }
+            
+            .cyber-nav {
+                gap: 1rem;
+            }
+            
+            .network-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .portal-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cyber Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Digital Rain Canvas -->
+    <canvas class="digital-rain" id="digitalRain"></canvas>
+
+    <!-- Cyber Header -->
+    <header class="cyber-header">
+        <div class="cyber-logo">RE!TU & CO</div>
+        <nav class="cyber-nav">
+            <a href="home.html" class="cyber-nav-link">Home</a>
+            <a href="portfolio.html" class="cyber-nav-link">Portfolio</a>
+            <a href="services.html" class="cyber-nav-link">Services</a>
+            <a href="contact.html" class="cyber-nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Cyber Hero -->
+    <section class="cyber-hero">
+        <h1 class="hologram-title">Quantum Connection</h1>
+        <p class="cyber-subtitle">Initiate digital communication through our quantum interface. Your message will be transmitted through secure cyber channels.</p>
+    </section>
+
+    <!-- Contact Matrix -->
+    <section class="contact-matrix">
+        <!-- Hologram Form -->
+        <div class="hologram-form">
+            <h2 class="form-title">SEND MESSAGE</h2>
+            <form id="quantumForm">
+                <div class="cyber-form-group">
+                    <label class="cyber-label" for="name">YOUR NAME</label>
+                    <input type="text" class="cyber-input" id="name" required>
+                </div>
+                
+                <div class="cyber-form-group">
+                    <label class="cyber-label" for="email">Email Address</label>
+                    <input type="email" class="cyber-input" id="email" required>
+                </div>
+                
+                <div class="cyber-form-group">
+                    <label class="cyber-label" for="subject">Subject</label>
+                    <input type="text" class="cyber-input" id="subject" required>
+                </div>
+                
+                <div class="cyber-form-group">
+                    <label class="cyber-label" for="message">Your Message</label>
+                    <textarea class="cyber-textarea" id="message" required></textarea>
+                </div>
+                
+                <div class="quantum-send-container">
+                    <button type="submit" class="quantum-send-btn">Send Message</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Cyber Network -->
+        <div class="cyber-network">
+            <h2 class="network-title">Network Nodes</h2>
+            <div class="network-grid">
+                <div class="network-node" onclick="copyToClipboard('reitunco@gmail.com')">
+                    <div class="node-icon" style="color: var(--neon-cyan);">✉️</div>
+                    <div class="node-title">Quantum Mail</div>
+                    <div class="node-value">reitunco@gmail.com</div>
+                </div>
+                
+                <div class="network-node" onclick="copyToClipboard('+26657042976')">
+                    <div class="node-icon" style="color: var(--neon-magenta);">📱</div>
+                    <div class="node-title">Phone 1</div>
+                    <div class="node-value">+266 57042976</div>
+                </div>
+                
+                <div class="network-node" onclick="copyToClipboard('+26662864087')">
+                    <div class="node-icon" style="color: var(--neon-lime);">📞</div>
+                    <div class="node-title">Phone 2</div>
+                    <div class="node-value">+266 62864087</div>
+                </div>
+                
+                <div class="network-node" onclick="window.open('https://wa.me/26657042976', '_blank')">
+                    <div class="node-icon" style="color: var(--neon-cyan);">💬</div>
+                    <div class="node-title">WhatsApp</div>
+                    <div class="node-value">Message us directly</div>
+                </div>
+
+                <!-- Social Media Portal -->
+                <div class="social-portal">
+                    <h3 class="portal-title">Social Networks</h3>
+                    <div class="portal-buttons">
+                        <a href="https://instagram.com/retu.co" class="portal-btn" target="_blank">
+                            <span>📸</span> Instagram
+                        </a>
+                        <a href="https://facebook.com/retu.co" class="portal-btn" target="_blank">
+                            <span>👥</span> Facebook
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Controls -->
+    <div class="cyber-audio-controls">
+        <button class="cyber-audio-btn" id="playPauseBtn">♪</button>
+        <button class="cyber-audio-btn" id="muteBtn">M</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="cyber-footer">
+        <p class="cyber-footer-text">&copy; 2025 Re!tu & Co Digital Artistry. All networks secured.</p>
+    </footer>
+
+    <!-- Audio Elements -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-cyber-suspense-878.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="typingSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-typing-887.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="clickSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-900.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="sendSound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-confirmation-914.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        //API Configuaration
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:5000/api' 
+        : '/api';
+        // Digital Rain Effect
+        const digitalRainCanvas = document.getElementById('digitalRain');
+        const ctx = digitalRainCanvas.getContext('2d');
+        
+        function resizeCanvas() {
+            digitalRainCanvas.width = window.innerWidth;
+            digitalRainCanvas.height = window.innerHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        const chars = '01010101010101010101010101010101';
+        const fontSize = 14;
+        const columns = digitalRainCanvas.width / fontSize;
+        const drops = [];
+        
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawDigitalRain() {
+            ctx.fillStyle = 'rgba(10, 10, 21, 0.05)';
+            ctx.fillRect(0, 0, digitalRainCanvas.width, digitalRainCanvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillStyle = `rgba(0, ${Math.random() * 155 + 100}, 0, ${Math.random() * 0.5 + 0.1})`;
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > digitalRainCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawDigitalRain, 33);
+
+        // Form interactions
+        const quantumForm = document.getElementById('quantumForm');
+        const cyberInputs = document.querySelectorAll('.cyber-input, .cyber-textarea');
+        const typingSound = document.getElementById('typingSound');
+        const clickSound = document.getElementById('clickSound');
+        const sendSound = document.getElementById('sendSound');
+
+        // Create data stream particles on keystroke
+        cyberInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                // Play typing sound
+                typingSound.currentTime = 0;
+                typingSound.volume = 0.2;
+                typingSound.play();
+                
+                // Create data stream particles
+                createDataStream(input);
+            });
+            
+            input.addEventListener('focus', () => {
+                input.style.background = 'rgba(10, 10, 30, 0.9)';
+                input.style.boxShadow = '0 0 20px var(--neon-lime), inset 0 0 10px rgba(0, 255, 136, 0.1)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.style.background = 'rgba(10, 10, 25, 0.8)';
+                input.style.boxShadow = 'none';
+            });
+        });
+
+        // Create data stream effect
+        function createDataStream(input) {
+            const rect = input.getBoundingClientRect();
+            const x = rect.left + Math.random() * rect.width;
+            const y = rect.top;
+            
+            for (let i = 0; i < 3; i++) {
+                const stream = document.createElement('div');
+                stream.className = 'data-stream';
+                stream.style.left = `${x}px`;
+                stream.style.top = `${y}px`;
+                stream.style.opacity = '1';
+                document.body.appendChild(stream);
+                
+                setTimeout(() => {
+                    stream.style.opacity = '0';
+                    setTimeout(() => {
+                        stream.remove();
+                    }, 1000);
+                }, 500);
+            }
+        }
+
+        // Quantum send button effect
+        const quantumSendBtn = document.querySelector('.quantum-send-btn');
+        
+        quantumSendBtn.addEventListener('click', (e) => {
+            // Play click sound
+            clickSound.currentTime = 0;
+            clickSound.volume = 0.3;
+            clickSound.play();
+            
+            // Create quantum particles
+            createQuantumParticles(e);
+        });
+
+        // Create quantum particles
+        function createQuantumParticles(event) {
+            const rect = quantumSendBtn.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'quantum-particle';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.borderRadius = '50%';
+                particle.style.backgroundColor = i % 3 === 0 ? 'var(--neon-cyan)' : 
+                                               i % 3 === 1 ? 'var(--neon-magenta)' : 'var(--neon-lime)';
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.position = 'fixed';
+                particle.style.zIndex = '100';
+                particle.style.pointerEvents = 'none';
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 8 + 4;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                
+                let life = 60;
+                
+                function updateParticle() {
+                    life--;
+                    if (life <= 0) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    particle.style.left = `${parseFloat(particle.style.left) + vx}px`;
+                    particle.style.top = `${parseFloat(particle.style.top) + vy}px`;
+                    particle.style.opacity = life / 60;
+                    
+                    requestAnimationFrame(updateParticle);
+                }
+                
+                updateParticle();
+            }
+        }
+// Form submission - UPDATED VERSION
+quantumForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Play send sound
+    sendSound.currentTime = 0;
+    sendSound.volume = 0.5;
+    sendSound.play();
+    
+    // Create massive quantum explosion
+    createQuantumExplosion();
+    
+    // Collect form data
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+    };
+
+    console.log('Sending contact form data to backend...', formData);
+
+    try {
+        // Send to our backend
+        const response = await fetch('http://localhost:5000/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Reset form
+            quantumForm.reset();
+            
+            // Show transmission complete effect
+            showTransmissionComplete();
+        } else {
+            alert('Failed to send message: ' + result.message);
+        }
+    } catch (error) {
+        alert('Network error. Please check if the server is running.');
+        console.error('Submission error:', error);
+    }
+});
+
+        // Create quantum explosion
+        function createQuantumExplosion() {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'quantum-particle';
+                particle.style.width = `${Math.random() * 6 + 2}px`;
+                particle.style.height = particle.style.width;
+                particle.style.borderRadius = '50%';
+                particle.style.backgroundColor = i % 4 === 0 ? 'var(--neon-cyan)' : 
+                                               i % 4 === 1 ? 'var(--neon-magenta)' : 
+                                               i % 4 === 2 ? 'var(--neon-lime)' : 'var(--neon-gold)';
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.position = 'fixed';
+                particle.style.zIndex = '100';
+                particle.style.pointerEvents = 'none';
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 12 + 6;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                
+                let life = 90;
+                
+                function updateParticle() {
+                    life--;
+                    if (life <= 0) {
+                        particle.remove();
+                        return;
+                    }
+                    
+                    particle.style.left = `${parseFloat(particle.style.left) + vx}px`;
+                    particle.style.top = `${parseFloat(particle.style.top) + vy}px`;
+                    particle.style.opacity = life / 90;
+                    
+                    requestAnimationFrame(updateParticle);
+                }
+                
+                updateParticle();
+            }
+        }
+
+        // Show transmission complete
+        function showTransmissionComplete() {
+            const message = document.createElement('div');
+            message.textContent = 'TRANSMISSION COMPLETE';
+            message.style.position = 'fixed';
+            message.style.top = '50%';
+            message.style.left = '50%';
+            message.style.transform = 'translate(-50%, -50%)';
+            message.style.fontFamily = 'Orbitron, sans-serif';
+            message.style.fontSize = '3rem';
+            message.style.fontWeight = '900';
+            message.style.color = 'var(--neon-lime)';
+            message.style.textShadow = '0 0 20px var(--neon-lime)';
+            message.style.zIndex = '1000';
+            message.style.opacity = '0';
+            document.body.appendChild(message);
+            
+            // Animate in
+            setTimeout(() => {
+                message.style.opacity = '1';
+                message.style.transition = 'opacity 0.5s ease';
+            }, 100);
+            
+            // Animate out
+            setTimeout(() => {
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.remove();
+                }, 500);
+            }, 3000);
+        }
+
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show copied notification
+                const notification = document.createElement('div');
+                notification.textContent = 'DATA COPIED TO BUFFER';
+                notification.style.position = 'fixed';
+                notification.style.bottom = '100px';
+                notification.style.left = '50%';
+                notification.style.transform = 'translateX(-50%)';
+                notification.style.background = 'rgba(10, 10, 25, 0.9)';
+                notification.style.color = 'var(--neon-lime)';
+                notification.style.padding = '10px 20px';
+                notification.style.border = '1px solid var(--neon-lime)';
+                notification.style.fontFamily = 'Rajdhani, sans-serif';
+                notification.style.fontWeight = '600';
+                notification.style.textTransform = 'uppercase';
+                notification.style.letterSpacing = '0.1em';
+                notification.style.zIndex = '1000';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 2000);
+            });
+        }
+
+        // Audio functionality
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                playPauseBtn.textContent = '❚❚';
+            } else {
+                backgroundMusic.pause();
+                playPauseBtn.textContent = '♪';
+            }
+        });
+
+        muteBtn.addEventListener('click', () => {
+            backgroundMusic.muted = !backgroundMusic.muted;
+            muteBtn.textContent = backgroundMusic.muted ? 'U' : 'M';
+        });
+
+        // Initialize audio volume
+        backgroundMusic.volume = 0.3;
+    </script>
+</body>
+</html>
